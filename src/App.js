@@ -2,6 +2,7 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import { auth } from "./firebase/firebase.utils";
+import { createUserProfileDocument } from "./firebase/firebase.utils";
 // Importing Css files
 import "./App.css";
 
@@ -19,9 +20,21 @@ class App extends React.Component {
   }
   unsubscribeFromAuth = null;
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
-      this.setState({ currentUser: user });
-      console.log(user);
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+      if (userAuth) {
+        const user = await createUserProfileDocument(userAuth);
+
+        user.onSnapshot((snapShot) => {
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data(),
+            },
+          });
+        });
+      } else {
+        this.setState({ currentUser: userAuth });
+      }
     });
   }
 
