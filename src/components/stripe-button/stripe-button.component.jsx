@@ -14,6 +14,7 @@ const StripeCheckoutButton = ({ price }) => {
     <StripeCheckout
       label="Pay Now"
       shippingAddress
+      bitcoin="0"
       billingAddress
       discription={`${price}`}
       image="https://svgshare.com/i/CUz.svg"

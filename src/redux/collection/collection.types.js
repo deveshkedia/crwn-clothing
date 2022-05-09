@@ -1,0 +1,5 @@
+const COLLECTION_TYPES = {
+  UPDATE_SHOP: "UPDATE_SHOP",
+};
+
+export default COLLECTION_TYPES;
